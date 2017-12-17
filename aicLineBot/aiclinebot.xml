@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="aiclinebot" default="all">
+  
+  
+  <property file="aiclinebot.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_ch.qos.logback:logback-classic:1.1.9.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.9/978cd9fbb43b7abed6379d7b02de052d216e30fc/logback-classic-1.1.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_ch.qos.logback:logback-core:1.1.9.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.1.9/e05d0cb67220937c32d7b4e5a47f967605376f63/logback-core-1.1.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.8.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.8.0/45b426f7796b741035581a176744d91090e2e6fb/jackson-annotations-2.8.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.8.6.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.8.6/2ef7b1cc34de149600f5e75bc2d5bf40de894e60/jackson-core-2.8.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.8.6.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.8.6/c43de61f74ecc61322ef8f402837ba65b0aa2bf4/jackson-databind-2.8.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.8.6/85837b90877661b30c96117608044d1da8892dc3/jackson-datatype-jsr310-2.8.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml:classmate:1.3.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.3.3/864c8e370a691e343210cc7c532fc198cee460d8/classmate-1.3.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.google.code.gson:gson:2.8.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.google.guava:guava:17.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:alchemy:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/alchemy/3.5.3/d2cfab19f79a400d0fb335227572190a1a74df92/alchemy-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:conversation:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/conversation/3.5.3/30711fe987b43f8e26942a232bc29bf0c545243d/conversation-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:core:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/core/3.5.3/c7d0e2ecfcad9ed1cdfb1cbb20bc2f7678939bb2/core-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:dialog:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/dialog/3.5.3/6c32ec10bf14cd2d08a0f5ffa4e6276e59d81f5/dialog-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:discovery:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/discovery/3.5.3/d876b7df14b2c09b212a78a3c0c26976249a3a03/discovery-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:document-conversion:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/document-conversion/3.5.3/784b3b1598e9f86601ebd9354726364c03e4a93/document-conversion-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:java-sdk:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/java-sdk/3.5.3/a03d89f7ad699d9f3c523a32b07eef91b1103971/java-sdk-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:language-translation:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/language-translation/3.5.3/94eb4ef96bd72ee8e5b72575c5fa66b0695292c6/language-translation-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:language-translator:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/language-translator/3.5.3/b4bf32238b4ac7c6fd789668e0e793236e7c7b6a/language-translator-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:natural-language-classifier:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/natural-language-classifier/3.5.3/a41cbcda0abcf99d2cda1f9e9268475c6152f22d/natural-language-classifier-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:personality-insights:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/personality-insights/3.5.3/d79cf9fa0ff4290e7f562a229df3cc62c16a7f46/personality-insights-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:retrieve-and-rank:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/retrieve-and-rank/3.5.3/f7a06ccabcabf0dcae503d345529d565f8ee8d0f/retrieve-and-rank-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:speech-to-text:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/speech-to-text/3.5.3/3467f4a51a7924ac18cc393b48b7634dbcd547ca/speech-to-text-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:text-to-speech:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/text-to-speech/3.5.3/54c7b06570e007136526bcc0502d63474b2e487/text-to-speech-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:tone-analyzer:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/tone-analyzer/3.5.3/acb24c1b99ba260e7dc45e56fc7893f9aaa5f43a/tone-analyzer-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:tradeoff-analytics:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/tradeoff-analytics/3.5.3/3a2e0e4ac08ea7668eadeb543ffa3232cc771c64/tradeoff-analytics-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.watson.developer_cloud:visual-recognition:3.5.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.ibm.watson.developer_cloud/visual-recognition/3.5.3/d81a6517c4a442e9865d7df86c661a473b58eff6/visual-recognition-3.5.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.jayway.jsonpath:json-path:2.2.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.jayway.jsonpath/json-path/2.2.0/22290d17944bd239fabf5ac69005a60a7ecbbbcb/json-path-2.2.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.linecorp.bot:line-bot-api-client:1.3.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-api-client/1.3.0/92c020a97540351b80687396082292200eabd386/line-bot-api-client-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.linecorp.bot:line-bot-model:1.3.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-model/1.3.0/25b8fcd7c93bdd8b5fba485c3b07c91ee931aa1c/line-bot-model-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.linecorp.bot:line-bot-servlet:1.3.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-servlet/1.3.0/fb416668cc6eb0fd844c29ffb22980fc5a885c5/line-bot-servlet-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.linecorp.bot:line-bot-spring-boot:1.3.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-spring-boot/1.3.0/9a6d742391e36480748ad18f8d8e74dc45b27feb/line-bot-spring-boot-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.okhttp3:logging-interceptor:3.4.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/3.4.1/381fc1096ba65040d8e80ea43b2e1d9bad02345e/logging-interceptor-3.4.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.okhttp3:okhttp-urlconnection:3.3.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.3.1/14e70f2069fb98dc60346dd24cb7b6a2e321580d/okhttp-urlconnection-3.3.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.okhttp3:okhttp-ws:3.3.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-ws/3.3.1/ebca9fdfbef870042a19aec6a5b7a21d72639310/okhttp-ws-3.3.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.okhttp3:okhttp:3.4.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.okio:okio:1.9.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.retrofit2:converter-jackson:2.1.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-jackson/2.1.0/ef33476a62d9c62dfca6b6c9e086f2e3343a96f4/converter-jackson-2.1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.squareup.retrofit2:retrofit:2.1.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.1.0/2de7cd8b95b7021b1d597f049bcb422055119f2c/retrofit-2.1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.vaadin.external.google:android-json:0.0.20131108.vaadin1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_javax.servlet:javax.servlet-api:3.1.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/javax.servlet/javax.servlet-api/3.1.0/3cd63d075497751784b2fa84be59432f4905bf7c/javax.servlet-api-3.1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_javax.validation:validation-api:1.1.0.final.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/1.1.0.Final/8613ae82954779d518631e05daa73a6a954817d5/validation-api-1.1.0.Final.jar"/>
+  </path>
+  
+  <path id="library.gradle:_junit:junit:4.12.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.minidev:accessors-smart:1.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/1.1/a527213f2fea112a04c9bdf0ec0264e34104cd08/accessors-smart-1.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.minidev:json-smart:2.2.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/net.minidev/json-smart/2.2.1/5b9e5df7a62d1279b70dc882b041d249c4f0b002/json-smart-2.2.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.tomcat.embed:tomcat-embed-core:8.5.11.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.5.11/72761f51fc7cef3ee19d4aafc7adc605df9f611f/tomcat-embed-core-8.5.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.tomcat.embed:tomcat-embed-el:8.5.11.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.5.11/60253815b897166903bf5ec41219c5bb15333a69/tomcat-embed-el-8.5.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.tomcat.embed:tomcat-embed-websocket:8.5.11.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-websocket/8.5.11/dfa65e7857d46630761c0571758a56f7cbd1e9ba/tomcat-embed-websocket-8.5.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.assertj:assertj-core:2.6.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-core/2.6.0/b532c3fc4f66bcfee4989a3514f1cd56203a33ad/assertj-core-2.6.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.22.2.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.bundles.repackaged/jersey-jsr166e/2.22.2/3ef9c67a5bea4d914a45bd54f3405fa29a368f7a/jersey-jsr166e-2.22.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hamcrest:hamcrest-library:1.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-library/1.3/4785a3c21320980282f9f33d0d1264a69040538f/hamcrest-library-1.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hibernate:hibernate-validator:5.3.4.final.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-validator/5.3.4.Final/2f6c8c0b646afe18e3ad205726729d3c4a85fe2e/hibernate-validator-5.3.4.Final.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jboss.logging:jboss-logging:3.3.0.final.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.3.0.Final/3616bb87707910296e2c195dc016287080bba5af/jboss-logging-3.3.0.Final.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.mockito:mockito-core:1.10.19.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.10.19/e8546f5bef4e061d8dd73895b4e8f40e3fe6effe/mockito-core-1.10.19.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.objenesis:objenesis:2.1.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/2.1/87c0ea803b69252868d09308b4618f766f135a96/objenesis-2.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.ow2.asm:asm:5.0.3.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/dcc2193db20e19e1feca8b1240dbbc4e190824fa/asm-5.0.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.projectlombok:lombok:1.16.12.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.16.12/64b2d2e8734b54ddba60a69df68a6dac627366c8/lombok-1.16.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.skyscreamer:jsonassert:1.4.0.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.skyscreamer/jsonassert/1.4.0/9cdbb373a06f6513e51e8c545ee6a5e981463edb/jsonassert-1.4.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:jcl-over-slf4j:1.7.22.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.22/86ceac14535af5a42c8fb0d06d79b925dd3cb263/jcl-over-slf4j-1.7.22.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:jul-to-slf4j:1.7.22.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.22/b0429e950b3d2bc2c39c1bacafac753edbe3781c/jul-to-slf4j-1.7.22.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:log4j-over-slf4j:1.7.22.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.slf4j/log4j-over-slf4j/1.7.22/a527c37e9ca6c3d19ba298edd4aa344ca751a203/log4j-over-slf4j-1.7.22.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:slf4j-api:1.7.13.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.13/7fcf30c25b8f4a9379b9dad0d3f487b25272c026/slf4j-api-1.7.13.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-autoconfigure:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/1.5.0.BUILD-SNAPSHOT/c87258ffc1dd12f971665471ca785b9fbe3ea29a/spring-boot-autoconfigure-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-devtools:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-devtools/1.5.0.BUILD-SNAPSHOT/971dcadef00602a413b5a4d0ee9aa6d29d6536b9/spring-boot-devtools-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-starter-logging:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/1.5.0.BUILD-SNAPSHOT/e5913e90a93a2c0d385e4a5ca96fa38156c16b43/spring-boot-starter-logging-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-starter-test:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/1.5.0.BUILD-SNAPSHOT/e6c5a12593d17be8e4d02d64f81c6ab58f1151e4/spring-boot-starter-test-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-starter-tomcat:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-tomcat/1.5.0.BUILD-SNAPSHOT/21282fb20344682743e38da86f70460298fd97b3/spring-boot-starter-tomcat-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-starter-web:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/1.5.0.BUILD-SNAPSHOT/dea1e1abd4c040a2673020af25def8368c260daa/spring-boot-starter-web-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-starter:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/1.5.0.BUILD-SNAPSHOT/325a0d0629a722e592469097d3193c376839adab/spring-boot-starter-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-test-autoconfigure:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-test-autoconfigure/1.5.0.BUILD-SNAPSHOT/99f9a5c1446d98ea1126f59792b32354bef7d59f/spring-boot-test-autoconfigure-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot-test:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-test/1.5.0.BUILD-SNAPSHOT/67ec7b363f54a55d6f60f6c936525461e1954ae5/spring-boot-test-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework.boot:spring-boot:1.5.0.build-snapshot.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/1.5.0.BUILD-SNAPSHOT/bde7aac274fbe58d0a499ffa649bd33af2f1164d/spring-boot-1.5.0.BUILD-SNAPSHOT.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-aop:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/4.3.6.RELEASE/d70b2393d380cd468d9a14969efaf9022c67c0/spring-aop-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-beans:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/4.3.6.RELEASE/1585715ed598b76a23dac931c27aa039b189eafb/spring-beans-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-context:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/4.3.6.RELEASE/5f3041020113e3202a7ae9defe36e7b5d2fb87eb/spring-context-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-core:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.3.6.RELEASE/690da099c3c2d2536210f0fd06ff3f336de43ad9/spring-core-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-expression:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/4.3.6.RELEASE/13b53568cfd7b308e70efcbac6cdd0c5d597ba1/spring-expression-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-test:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.3.6.RELEASE/233edfdbe5f895cd6585001ef30122e5604442b4/spring-test-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-web:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/4.3.6.RELEASE/8b8bf8fc6ed4acd5ae0baa6179f1cccc52aaa9aa/spring-web-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-webmvc:4.3.6.release.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.3.6.RELEASE/ea55690d6d61ad70e2569db1e1add1603e427862/spring-webmvc-4.3.6.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.yaml:snakeyaml:1.17.classpath">
+    <pathelement location="C:/Users/aic/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.17/7a27ea250c5130b2922b86dea63cbb1cc10a660c/snakeyaml-1.17.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/module_aiclinebot.xml"/>
+  
+  <import file="${basedir}/.idea/modules/module_aiclinebot_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/module_aiclinebot_test.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.aiclinebot, clean.module.aiclinebot_main, clean.module.aiclinebot_test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.aiclinebot, compile.module.aiclinebot_main, compile.module.aiclinebot_test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

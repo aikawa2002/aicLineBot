@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.linecorp.bot:line-bot-servlet:1.3.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-servlet/1.3.0/fb416668cc6eb0fd844c29ffb22980fc5a885c5/line-bot-servlet-1.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.linecorp.bot/line-bot-servlet/1.3.0/9c02f736984113b850711a21884c1a8780913ad9/line-bot-servlet-1.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
