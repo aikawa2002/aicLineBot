@@ -8,8 +8,13 @@ import java.util.regex.Pattern;
 
 import com.ibm.watson.developer_cloud.discovery.v1.Discovery;
 import com.ibm.watson.developer_cloud.discovery.v1.model.AddTrainingDataOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.DeleteAllTrainingDataOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.DeleteTrainingDataOptions;
 import com.ibm.watson.developer_cloud.discovery.v1.model.GetTrainingDataOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.ListTrainingDataOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.ListTrainingDataOptions.Builder;
 import com.ibm.watson.developer_cloud.discovery.v1.model.QueryOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingDataSet;
 import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingExample;
 import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingQuery;
 import com.ibm.watson.developer_cloud.discovery.v1.model.UpdateTrainingExampleOptions;
@@ -73,21 +78,60 @@ public class WatsonDiscovery {
 
 	}
 
-	public void training(String naturalLanguageQuery,String document_id,int relevance) {
+	public void training(String naturalLanguageQuery,String documentId,int relevance) {
+
         TrainingExample trainingExample = new TrainingExample();
-        trainingExample.setDocumentId(document_id);
+        trainingExample.setDocumentId(documentId);
         trainingExample.setRelevance(relevance);
 
-        try {
+    	//DeleteAllTrainingDataOptions.Builder deleteAllTrainingDataOptions = new DeleteAllTrainingDataOptions.Builder(environmentId, collectionId);
+    	//discovery.deleteAllTrainingData(deleteAllTrainingDataOptions.build());
+
+		String queryId = null;
+		String exampleId = null;
+		List<TrainingExample> updateQuery = null;
+		ListTrainingDataOptions.Builder listTrainingDataOptions = new ListTrainingDataOptions.Builder(environmentId, collectionId);
+    	TrainingDataSet dataSet = discovery.listTrainingData(listTrainingDataOptions.build()).execute();
+    	List<TrainingQuery> queries = dataSet.getQueries();
+    	for(TrainingQuery query:queries) {
+    		if (query.getNaturalLanguageQuery().equals(naturalLanguageQuery)) {
+    			updateQuery = query.getExamples();
+    			queryId = query.getQueryId();
+    	    	for(TrainingExample example:query.getExamples()) {
+    	    		if (example.getDocumentId().equals(documentId)) {
+    	    			if (example.getRelevance().intValue() == relevance) return;
+    	    			exampleId = documentId;
+    	    			break;
+    	    		}
+    	    	}
+    	    	break;
+    		}
+    	}
+
+    	if (queryId == null) {
             AddTrainingDataOptions.Builder addTrainigOptions = new AddTrainingDataOptions.Builder(environmentId, collectionId);
             addTrainigOptions.naturalLanguageQuery(naturalLanguageQuery);
             addTrainigOptions.addExamples(trainingExample);
         	discovery.addTrainingData(addTrainigOptions.build()).execute();
-        } catch(ConflictException e) {
-        	UpdateTrainingExampleOptions.Builder updateTrainigOptions = new UpdateTrainingExampleOptions.Builder("","",environmentId, collectionId);
-        	discovery.updateTrainingExample(updateTrainigOptions.build());
-        }
+    	} else {
 
+    		if (exampleId == null) {
+            	updateQuery.add(trainingExample);
+
+    			DeleteTrainingDataOptions.Builder delOption = new DeleteTrainingDataOptions.Builder(environmentId, collectionId,queryId);
+            	discovery.deleteTrainingData(delOption.build()).execute();
+
+                AddTrainingDataOptions.Builder addTrainigOptions = new AddTrainingDataOptions.Builder(environmentId, collectionId);
+                addTrainigOptions.naturalLanguageQuery(naturalLanguageQuery);
+                addTrainigOptions.examples(updateQuery);
+            	discovery.addTrainingData(addTrainigOptions.build()).execute();
+
+    		} else {
+            	UpdateTrainingExampleOptions.Builder updateTrainigOptions = new UpdateTrainingExampleOptions.Builder(environmentId, collectionId,queryId,exampleId);
+            	updateTrainigOptions.relevance(relevance);
+            	discovery.updateTrainingExample(updateTrainigOptions.build()).execute();
+    		}
+    	}
 	}
 
 	private String getThumbnailURL(String html) {

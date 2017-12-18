@@ -106,7 +106,7 @@ public class ReplyMessageHandler {
   String replyToken = event.getReplyToken();
   BotApiResponse resp = null;
 
-  if (receivedMessage.contains("ごはん何？")) {
+  if (receivedMessage.contains("ごはん") || receivedMessage.contains("飯")) {
 	  Response<UserProfileResponse> profile = lineMessagingService.getProfile(event.getSource().getUserId()).execute();
 	  resp = discover(profile.body().getDisplayName(),receivedMessage, replyToken);
   } else {
@@ -214,6 +214,7 @@ public class ReplyMessageHandler {
 	  List<Message> messages = new ArrayList<>();
 	  String foods = getFoods();
 	  messages.add(new TextMessage("今日は"+ foods +"で何か作ります。"));
+	  messages.add(new TextMessage("どれが好き？"));
 	  templete = discovery.execute(name + " " +  foods);
 	  messages.add(templete);
 
