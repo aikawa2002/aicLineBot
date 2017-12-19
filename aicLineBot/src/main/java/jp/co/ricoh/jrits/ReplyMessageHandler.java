@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,41 +19,30 @@ import com.ibm.watson.developer_cloud.conversation.v1.model.MessageResponse;
 import com.ibm.watson.developer_cloud.personality_insights.v3.model.ProfileOptions.AcceptLanguage;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechModel;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassResult;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifiedImage;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifiedImages;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifierResult;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyOptions;
 import com.linecorp.bot.client.LineMessagingService;
-import com.linecorp.bot.client.LineMessagingServiceBuilder;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.AudioMessageContent;
 import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.event.source.Source;
-import com.linecorp.bot.model.message.AudioMessage;
 import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
-import com.linecorp.bot.model.message.template.Template;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
 
 import jp.co.ricoh.jrits.watson.WatsonDiscovery;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Response;
 
 
@@ -90,13 +78,6 @@ public class ReplyMessageHandler {
 
 	  //Action yes = new PostbackAction("はい","PostBackYes");
 	  //Action no = new PostbackAction("いいえ","PostBackNo");
-	  Action yes = new PostbackAction("好き","aaaaaaaaaaaaaa:10");
-	  Action no = new PostbackAction("嫌い","aaaaaaaaaaaaaa:0");
-	  List<Action> actionList = new ArrayList<>();
-	  actionList.add(yes);
-	  actionList.add(no);
-
-	  //templete = new TemplateMessage("お役に立ちましたか？",new ConfirmTemplate("お役に立ちましたか？",actionList));
   }
 
   @SuppressWarnings("null")
@@ -106,7 +87,19 @@ public class ReplyMessageHandler {
   String replyToken = event.getReplyToken();
   BotApiResponse resp = null;
 
-  if (receivedMessage.contains("ごはん") || receivedMessage.contains("飯")) {
+  if (receivedMessage.equals("あ")) {
+      List<Message> messages = new ArrayList<>();
+      List<Action> actionList = new ArrayList<>();
+      actionList.add(new MessageAction("今日のご飯何？", "今日のご飯何？"));
+      actionList.add(new MessageAction("机は何ゴミですか？", "机は何ゴミですか？"));
+
+      templete = new TemplateMessage("メッセージ候補",new ConfirmTemplate("メッセージ候補",actionList));
+      messages.add(templete);
+      resp = lineMessagingService
+              .replyMessage(new ReplyMessage(replyToken, messages))
+              .execute()
+              .body();
+  } else if (receivedMessage.contains("ごはん") || receivedMessage.contains("飯")) {
 	  Response<UserProfileResponse> profile = lineMessagingService.getProfile(event.getSource().getUserId()).execute();
 	  resp = discover(profile.body().getDisplayName(),receivedMessage, replyToken);
   } else {

@@ -8,17 +8,14 @@ import java.util.regex.Pattern;
 
 import com.ibm.watson.developer_cloud.discovery.v1.Discovery;
 import com.ibm.watson.developer_cloud.discovery.v1.model.AddTrainingDataOptions;
-import com.ibm.watson.developer_cloud.discovery.v1.model.DeleteAllTrainingDataOptions;
 import com.ibm.watson.developer_cloud.discovery.v1.model.DeleteTrainingDataOptions;
-import com.ibm.watson.developer_cloud.discovery.v1.model.GetTrainingDataOptions;
 import com.ibm.watson.developer_cloud.discovery.v1.model.ListTrainingDataOptions;
-import com.ibm.watson.developer_cloud.discovery.v1.model.ListTrainingDataOptions.Builder;
 import com.ibm.watson.developer_cloud.discovery.v1.model.QueryOptions;
+import com.ibm.watson.developer_cloud.discovery.v1.model.QueryPassages;
 import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingDataSet;
 import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingExample;
 import com.ibm.watson.developer_cloud.discovery.v1.model.TrainingQuery;
 import com.ibm.watson.developer_cloud.discovery.v1.model.UpdateTrainingExampleOptions;
-import com.ibm.watson.developer_cloud.service.exception.ConflictException;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -44,16 +41,44 @@ public class WatsonDiscovery {
         QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, collectionId);
         queryBuilder.naturalLanguageQuery(query);
 		queryBuilder.passages(true);
+		queryBuilder.passagesCount(5);
 		queryBuilder.highlight(false);
 		queryBuilder.deduplicate(false);
-		queryBuilder.count(5);
+		queryBuilder.count(100);
         com.ibm.watson.developer_cloud.discovery.v1.model.QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute();
 
         AddTrainingDataOptions.Builder addTrainigOptions = new AddTrainingDataOptions.Builder(environmentId, collectionId);
         addTrainigOptions.naturalLanguageQuery(query);
         //addTrainigOptions.naturalLanguageQuery(human + " " +QUERY);
 
-
+        List<CarouselColumn> carouselActionList = new ArrayList<>();
+        for (QueryPassages passage:queryResponse.getPassages()) {
+            String docId = passage.getDocumentId();
+            Double score = passage.getPassageScore();
+            String html = null;
+            String title = null;
+            for(Map<String, Object> response:queryResponse.getResults()){
+                if (docId.equals((String)response.get("id"))) {
+                    html = (String)response.get("html");
+                    @SuppressWarnings("unchecked")
+                    Map<String,Object> extracted_metadata = (Map<String,Object>)response.get("extracted_metadata");
+                    title = (String)extracted_metadata.get("title");
+                    break;
+                }
+            }
+            String[] titles = title.split(" ");
+            Action yes = new PostbackAction("好き",docId +":10:"+query);
+            Action no = new PostbackAction("嫌い",docId +":0:"+query);
+            List<Action> actionList = new ArrayList<>();
+            actionList.add(yes);
+            actionList.add(no);
+            carouselActionList.add(new CarouselColumn(
+                              getThumbnailURL(html),
+                              titles[0],
+                              titles[1] +"\n" + score.toString(),
+                              actionList));
+        }
+/*
         List<CarouselColumn> carouselActionList = new ArrayList<>();
         for(Map<String, Object> response:queryResponse.getResults()){
 				String docId = (String)response.get("id");
@@ -73,7 +98,7 @@ public class WatsonDiscovery {
 					  			titles[1],
 				  				actionList));
         }
-
+*/
  	    return new TemplateMessage("好きな料理を選んでください",new CarouselTemplate(carouselActionList));
 
 	}
