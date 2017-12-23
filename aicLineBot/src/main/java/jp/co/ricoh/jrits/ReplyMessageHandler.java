@@ -37,6 +37,7 @@ import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.ButtonsTemplate;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.model.response.BotApiResponse;
@@ -87,21 +88,26 @@ public class ReplyMessageHandler {
   String replyToken = event.getReplyToken();
   BotApiResponse resp = null;
 
-  if (receivedMessage.equals("あ")) {
+  if (receivedMessage.equals("メッセージ")) {
       List<Message> messages = new ArrayList<>();
       List<Action> actionList = new ArrayList<>();
       actionList.add(new MessageAction("今日のご飯何？", "今日のご飯何？"));
-      actionList.add(new MessageAction("机は何ゴミですか？", "机は何ゴミですか？"));
+      actionList.add(new MessageAction("じゃがいも にんじんで作りたい","じゃがいも にんじんで作りたい"));
+      actionList.add(new MessageAction("牛肉 チーズで作りたい","牛肉 チーズで作りたい"));
+      actionList.add(new MessageAction("卵 鮭で作りたい","卵 鮭で作りたい"));
 
-      templete = new TemplateMessage("メッセージ候補",new ConfirmTemplate("メッセージ候補",actionList));
+      templete = new TemplateMessage("メッセージ候補",new ButtonsTemplate(null,"メッセージ候補","メッセージ候補",actionList));
       messages.add(templete);
       resp = lineMessagingService
               .replyMessage(new ReplyMessage(replyToken, messages))
               .execute()
               .body();
+  } else if (receivedMessage.contains("で作りたい")) {
+	  Response<UserProfileResponse> profile = lineMessagingService.getProfile(event.getSource().getUserId()).execute();
+	  resp = discover(profile.body().getDisplayName(),receivedMessage.replaceAll("で作りたい", ""), replyToken);
   } else if (receivedMessage.contains("ごはん") || receivedMessage.contains("飯")) {
 	  Response<UserProfileResponse> profile = lineMessagingService.getProfile(event.getSource().getUserId()).execute();
-	  resp = discover(profile.body().getDisplayName(),receivedMessage, replyToken);
+	  resp = discover(profile.body().getDisplayName(),null, replyToken);
   } else {
 	  resp = execute(receivedMessage, replyToken);
   }
@@ -205,7 +211,10 @@ public class ReplyMessageHandler {
 
   private BotApiResponse discover(String name,String receivedMessage, String replyToken) throws IOException {
 	  List<Message> messages = new ArrayList<>();
-	  String foods = getFoods();
+	  String foods = receivedMessage;
+	  if (null == foods) {
+		  foods = getFoods();
+	  }
 	  messages.add(new TextMessage("今日は"+ foods +"で何か作ります。"));
 	  messages.add(new TextMessage("どれが好き？"));
 	  templete = discovery.execute(name + " " +  foods);
